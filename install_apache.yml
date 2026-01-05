@@ -4,36 +4,11 @@
   become: true
   tasks:
   
-  - name: update repository index
-    dnf:
-      update_cache: yes  
-    when: ansible_distribution == "Rocky"
 
-  - name: install httpd package
-    dnf: 
-      name: httpd
+  - name: install apache and htop package
+    package: 
+      name: 
+       - "{{ apache_package }}"
+       - "{{ htop_package }}"
       state: latest
-    when: ansible_distribution == "Rocky"
-
-  - name: Install htop package
-    dnf:
-      name: htop
-      state: latest
-    when: ansible_distribution == "Rocky"
-
-  - name: update repository index
-    apt:
       update_cache: yes
-    when: ansible_distribution == "Linux Mint"
-
-  - name: install apache2 package
-    apt:
-      name: apache2
-      state: latest
-    when: ansible_distribution == "Linux Mint"
-
-  - name: install htop package
-    apt:
-      name: htop
-      state: latest
-    when: ansible_distribution == "Linux Mint"
