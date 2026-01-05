@@ -1,4 +1,4 @@
 192.168.0.147
 192.168.0.148
 192.168.0.149
-
+192.168.0.252 ansible_python_interpreter=/usr/bin/python3
