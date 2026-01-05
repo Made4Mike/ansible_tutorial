@@ -1,4 +1,4 @@
-192.168.0.147
-192.168.0.148
-192.168.0.149
-192.168.0.252 ansible_python_interpreter=/usr/bin/python3
+192.168.0.147 apache_package=httpd htop_package=htop
+192.168.0.148 apache_package=httpd htop_package=htop
+192.168.0.149 apache_package=httpd htop_package=htop
+192.168.0.252 ansible_python_interpreter=/usr/bin/python3 apache_package=apache2 htop_package=htop
