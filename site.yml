@@ -5,12 +5,14 @@
   tasks:
 
   - name: install updates (Rocky)
+    tags: always
     dnf:
       update_only: yes
       update_cache: yes
     when: ansible_distribution == "Rocky"
 
   - name: install updates (Mint)
+    tags: always
     apt:
       upgrade: dist
       update_cache: yes
@@ -22,6 +24,7 @@
   tasks:
 
   - name: install apache and htop for Rocky Linux servers
+    tags: apache,htop,rocky
     dnf:
       name:
         - httpd
@@ -29,7 +32,8 @@
       state: latest
     when: ansible_distribution == "Rocky"
 
-  - name: install apache and htop for Linux Mint servers 
+  - name: install apache and htop for Linux Mint servers
+    tags: apache,htop,mint 
     apt:
       name:
         - apache2
@@ -42,6 +46,7 @@
   tasks: 
   
   - name: install mariadb package (Rocky)
+    tags: mariadb,rocky
     dnf:
       name: mariadb-server
       state: latest
@@ -58,6 +63,7 @@
   tasks: 
 
   - name: install samba package
+    tags: samba 
     package:
       name: samba
       state: latest
