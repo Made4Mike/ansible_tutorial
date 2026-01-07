@@ -4,11 +4,20 @@
   become: true
   tasks:
   
-
-  - name: install apache and htop package
-    package: 
-      name: 
-       - "{{ apache_package }}"
-       - "{{ htop_package }}"
+  - name: install apache and htop for Rocky Linux servers
+    dnf:
+      name:
+        - httpd
+        - htop
       state: latest
       update_cache: yes
+    when: ansible_distribution == "Rocky"
+
+  - name: install apache and htop for Linux Mint servers 
+    apt:
+      name:
+        - apache2
+        - htop
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Mint"
