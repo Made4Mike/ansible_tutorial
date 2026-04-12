@@ -29,6 +29,7 @@
       name:
         - httpd
         - htop
+        - php
       state: latest
     when: ansible_distribution == "Rocky"
 
@@ -38,6 +39,7 @@
       name:
         - apache2
         - htop
+        - libapache2-mod-php
       state: latest
     when: ansible_distribution == "Linux Mint"
 
