@@ -7,7 +7,7 @@
 
 [file_servers]
 192.168.0.149 
-192.168.0.252 ansible_python_interpreter=/usr/bin/python3 
+# 192.168.0.252 ansible_python_interpreter=/usr/bin/python3 # This host is currently offline 
 
 [workstations]
 192.168.0.197
