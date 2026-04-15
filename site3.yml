@@ -1,0 +1,81 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install updates (Rocky)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "Rocky"
+
+  - name: install updates (Mint)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Linux Mint"
+
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache and htop for Rocky Linux servers
+    tags: apache,htop,rocky
+    dnf:
+      name:
+        - httpd
+        - htop
+        - php
+      state: latest
+    when: ansible_distribution == "Rocky"
+
+  - name: install apache and htop for Linux Mint servers
+    tags: apache,htop,mint 
+    apt:
+      name:
+        - apache2
+        - htop
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Linux Mint"
+
+  - name: copy default html file for site
+    tags: apache,apache2,httpd
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
+- hosts: db_servers
+  become: true
+  tasks: 
+  
+  - name: install mariadb package (Rocky)
+    tags: mariadb,rocky
+    dnf:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Rocky"
+
+  - name: install mariadb package (Linux Mint)
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Linux Mint"
+  
+- hosts: file_servers
+  become: true
+  tasks: 
+
+  - name: install samba package
+    tags: samba 
+    package:
+      name: samba
+      state: latest
