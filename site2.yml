@@ -18,6 +18,32 @@
       update_cache: yes
     when: ansible_distribution == "Linux Mint"
 
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: create Homer user
+    tags: always
+    user: 
+      name: homer
+      groups: root
+
+  - name: add ssh key for homer 
+    tags: always
+    authorized_key:
+      user: homer
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+w676A49Bz6RF1oYhvLj9Pw80B+XOd+5VYe2KBqQGF Ansible"
+
+
+  - name: add sudoers file for homer
+    tags: always
+    copy: 
+      src: sudoer_homer
+      dest: /etc/sudoers.d/homer
+      owner: root
+      group: root
+      mode: 0440        
+
 - hosts: workstations
   tags: workstations
   become: true
@@ -48,6 +74,31 @@
         - php
       state: latest
     when: ansible_distribution == "Rocky"
+
+  - name: start httpd (Rocky)
+    tags: apache,rocky,httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Rocky" 
+
+  - name: change e-mail address for admin
+    tags: apache,rocky,httpd
+    lineinfile: 
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin mikekaton21@gmail.com
+    when: ansible_distribution == "Rocky"
+    register: httpd
+
+  - name: restart httpd (Rocky)
+    tags: apache,rocky,httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+ 
 
   - name: install apache and php for Linux Mint servers
     tags: apache,apache2,mint 
