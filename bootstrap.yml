@@ -1,0 +1,47 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Rocky)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "Rocky"
+
+  - name: install updates (Mint)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Linux Mint"
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: create Homer user
+    tags: always
+    user: 
+      name: homer
+      groups: root
+
+  - name: add ssh key for homer 
+    tags: always
+    authorized_key:
+      user: homer
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+w676A49Bz6RF1oYhvLj9Pw80B+XOd+5VYe2KBqQGF Ansible"
+
+
+  - name: add sudoers file for homer
+    tags: always
+    copy: 
+      src: sudoer_homer
+      dest: /etc/sudoers.d/homer
+      owner: root
+      group: root
+      mode: 0440        
+
+
