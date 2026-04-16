@@ -1,0 +1,5 @@
+  - name: add ssh key for homer 
+    tags: always
+    authorized_key:
+      user: homer
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+w676A49Bz6RF1oYhvLj9Pw80B+XOd+5VYe2KBqQGF Ansible"

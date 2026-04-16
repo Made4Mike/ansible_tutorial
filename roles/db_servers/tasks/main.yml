@@ -1,0 +1,13 @@
+    - name: install mariadb package (Rocky)
+      tags: mariadb,db,rocky
+      dnf:
+        name: mariadb-server
+        state: latest
+      when: ansible_distribution == "Rocky"
+
+    - name: install mariadb package (Linux Mint)
+      tags: mariadb,db,mint
+      apt:
+        name: mariadb-server
+        state: latest
+      when: ansible_distribution == "Linux Mint"
